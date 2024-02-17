@@ -1,8 +1,8 @@
-import { useBingoHandler } from '../hooks/bingoHandler'
+import { useBingoHandler } from '../hooks/useBingoHandler'
 import './BingoTable.scss'
 import BingoCard from './BingoCard'
-type BingoCell = { state: number; text?: string }
-type BingoRow = BingoCell[]
+import { BingoCell, BingoRow } from '../bingo.types'
+
 
 function BingoTable() {
     const [items, updateArray] = useBingoHandler()

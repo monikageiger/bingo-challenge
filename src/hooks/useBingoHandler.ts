@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import initialBingoList from './initialList'
+import { BingoList } from '../bingo.types'
 
-type BingoCell = { state: number; text?: string }
-type BingoRow = BingoCell[]
-type BingoList = BingoRow[]
 
 export function useBingoHandler(): [
     BingoList,

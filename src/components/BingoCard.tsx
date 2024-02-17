@@ -1,17 +1,6 @@
 import './BingoCard.scss'
 import heart from '../assets/heart.png'
-type BingoCell = {
-    state: number
-    text?: string
-    unique?: boolean
-    number?: number
-}
-type BingoCardProps = {
-    cell: BingoCell
-    rowIndex: number
-    cellIndex: number
-    onClick: (row: number, col: number) => void
-}
+import { BingoCardProps } from '../bingo.types'
 
 function BingoCard({ cell, rowIndex, cellIndex, onClick }: BingoCardProps) {
     return (
