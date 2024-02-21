@@ -1,4 +1,4 @@
-import { BingoList, BingoRow } from '../bingo.types'
+import { BingoBoard, BingoRow } from '../bingo.types'
 
 /**
  * List of bingo topics.
@@ -31,9 +31,9 @@ const bingoTopics = [
 ]
 
 /**
- * Initial bingo list.
+ * Initial bingo board.
  */
-let bingoList: BingoList = [
+let bingoBoard: BingoBoard = [
     [
         { state: 0, number: 0 },
         { state: 0, number: 1 },
@@ -72,9 +72,9 @@ let bingoList: BingoList = [
 ]
 
 /**
- * Flattened bingo list.
+ * Flattened bingo board.
  */
-let flatBingoList: BingoRow = bingoList.reduce(
+let flatBingoBoard: BingoRow = bingoBoard.reduce(
     (acc, val) => acc.concat(val),
     []
 )
@@ -116,17 +116,17 @@ const shuffledListOfStrings: string[] = shuffleArray([...bingoTopics])
  */
 let shuffledIndex = 0
 /**
- * Updates the flat bingo list with the shuffled list of strings.
+ * Updates the flat bingo board with the shuffled list of strings.
  */
-flatBingoList = flatBingoList.map((obj) =>
+flatBingoBoard = flatBingoBoard.map((obj) =>
     !obj.unique ? { ...obj, text: shuffledListOfStrings[shuffledIndex++] } : obj
 )
 
 /**
- * Splits the flat bingo list into a 2D array.
+ * Splits the flat bingo board into a 2D array.
  */
-bingoList = []
-while (flatBingoList.length)
-    bingoList.push(flatBingoList.splice(0, 5) as BingoRow)
+bingoBoard = []
+while (flatBingoBoard.length)
+    bingoBoard.push(flatBingoBoard.splice(0, 5) as BingoRow)
 
-export default bingoList
+export default bingoBoard

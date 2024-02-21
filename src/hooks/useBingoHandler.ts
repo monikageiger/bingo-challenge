@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react'
-import initialBingoList from './initialList'
-import { BingoList } from '../bingo.types'
+import { useState, useEffect, useRef } from 'react'
+import initialBingoBoard from './initialList'
+import { BingoBoard } from '../bingo.types'
+
 
 /**
  * Custom hook to handle bingo game logic.
  */
 export function useBingoHandler(): [
-    BingoList,
+    BingoBoard,
     (rowIndex: number, colIndex: number) => void
 ] {
     const [winCondition, setWindCondition] = useState(false)
     const BINGO_STATE = 2
-    const [bingoList, setBingoList] = useState<BingoList>(initialBingoList)
+    const [bingoBoard, setBingoBoard] = useState<BingoBoard>(initialBingoBoard)
+    const heartCount = useRef(0)
 
     /**
      * Updates the state of the cells at the given indices.
@@ -20,49 +22,49 @@ export function useBingoHandler(): [
         indices: [number, number][],
         state: number = BINGO_STATE
     ) => {
-        const newBingoList = [...bingoList]
+        const newBingoBoard = [...bingoBoard]
         indices.forEach(([row, col]) => {
-            if (newBingoList[row][col].state === 1) {
-                newBingoList[row][col].state = state
+            if (newBingoBoard[row][col].state === 1) {
+                newBingoBoard[row][col].state = state
                 setWindCondition(true)
             }
         })
-        setBingoList(newBingoList)
+        setBingoBoard(newBingoBoard)
     }
 
     /**
-     * Checks the diagonals of the bingo list for a win.
+     * Checks the diagonals of the bingo board for a win.
      */
-    const checkDiagonals = (bingoList: BingoList) => {
+    const checkDiagonals = (bingoBoard: BingoBoard) => {
         const countDiagonal: [number, number][] = []
         const countReverseDiagonal: [number, number][] = []
 
-        for (let i = 0; i < bingoList.length; i++) {
-            if (bingoList[i][i].state) countDiagonal.push([i, i])
-            if (bingoList[i][bingoList.length - 1 - i].state)
-                countReverseDiagonal.push([i, bingoList.length - 1 - i])
+        for (let i = 0; i < bingoBoard.length; i++) {
+            if (bingoBoard[i][i].state) countDiagonal.push([i, i])
+            if (bingoBoard[i][bingoBoard.length - 1 - i].state)
+                countReverseDiagonal.push([i, bingoBoard.length - 1 - i])
         }
 
-        if (countDiagonal.length === bingoList.length)
+        if (countDiagonal.length === bingoBoard.length)
             updateState(countDiagonal)
-        if (countReverseDiagonal.length === bingoList.length)
+        if (countReverseDiagonal.length === bingoBoard.length)
             updateState(countReverseDiagonal)
     }
 
     /**
-     * Checks the columns and rows of the bingo list for a win.
+     * Checks the columns and rows of the bingo board for a win.
      */
-    const checkColumnsAndRows = (bingoList: BingoList) => {
-        for (let i = 0; i < bingoList.length; i++) {
+    const checkColumnsAndRows = (bingoBoard: BingoBoard) => {
+        for (let i = 0; i < bingoBoard.length; i++) {
             const countColumn: [number, number][] = []
             const countRow: [number, number][] = []
-            for (let j = 0; j < bingoList.length; j++) {
-                if (bingoList[j][i].state) countColumn.push([j, i])
-                if (bingoList[i][j].state) countRow.push([i, j])
+            for (let j = 0; j < bingoBoard.length; j++) {
+                if (bingoBoard[j][i].state) countColumn.push([j, i])
+                if (bingoBoard[i][j].state) countRow.push([i, j])
             }
-            if (countColumn.length === bingoList.length)
+            if (countColumn.length === bingoBoard.length)
                 updateState(countColumn)
-            if (countRow.length === bingoList.length) updateState(countRow)
+            if (countRow.length === bingoBoard.length) updateState(countRow)
         }
     }
 
@@ -70,19 +72,21 @@ export function useBingoHandler(): [
      * Handles a click on a cell.
      */
     function handleCellClick(rowIndex: number, colIndex: number): void {
-        const newBingoList = [...bingoList]
+        const newBingoBoard = [...bingoBoard]
 
-        if (!newBingoList[rowIndex][colIndex].state) {
-            newBingoList[rowIndex][colIndex].state = 1
-            setBingoList(newBingoList)
-            checkDiagonals(newBingoList)
-            checkColumnsAndRows(newBingoList)
+        if (!newBingoBoard[rowIndex][colIndex].state) {
+            newBingoBoard[rowIndex][colIndex].state = 1
+            setBingoBoard(newBingoBoard)
+            checkDiagonals(newBingoBoard)
+            checkColumnsAndRows(newBingoBoard)
         }
     }
     /**
      * Creates a heart element and adds it to the body.
      */
     function createHeart() {
+        if (heartCount.current >= 100) return
+
         const heart = document.createElement('div')
         heart.classList.add('heart')
 
@@ -92,9 +96,11 @@ export function useBingoHandler(): [
         heart.innerText = '❤️'
 
         document.body.appendChild(heart)
+        heartCount.current += 1
 
         setTimeout(() => {
             heart.remove()
+            heartCount.current -= 1
         }, 5000)
     }
 
@@ -105,6 +111,7 @@ export function useBingoHandler(): [
      * and sets winCondition to false after 3 seconds.
      * If winCondition is false, clears the interval and stops hearts from being created.
      */
+
     useEffect(() => {
         if (winCondition) {
             const interval = setInterval(createHeart, 35)
@@ -116,5 +123,5 @@ export function useBingoHandler(): [
         }
     }, [winCondition])
 
-    return [bingoList ?? [], handleCellClick]
+    return [bingoBoard ?? [], handleCellClick]
 }

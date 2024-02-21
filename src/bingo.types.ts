@@ -7,7 +7,7 @@ export type BingoCell = {
 
 export type BingoRow = BingoCell[]
 
-export type BingoList = BingoRow[]
+export type BingoBoard = BingoRow[]
 
 export type BingoCardProps = {
     cellData: BingoCell
