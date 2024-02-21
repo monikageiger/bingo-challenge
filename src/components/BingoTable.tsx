@@ -3,6 +3,12 @@ import './BingoTable.scss'
 import BingoCard from './BingoCard'
 import { BingoCell, BingoRow } from '../bingo.types'
 
+/**
+ * BingoTable component.
+ *
+ * This component displays a bingo table with rows of bingo cards.
+ * The bingo cards are created from the items returned by the useBingoHandler hook.
+ */
 function BingoTable() {
     const [items, handleCellClick] = useBingoHandler()
     return (

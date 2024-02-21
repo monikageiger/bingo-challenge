@@ -1,5 +1,8 @@
 import { BingoList, BingoRow } from '../bingo.types'
 
+/**
+ * List of bingo topics.
+ */
 const bingoTopics = [
     'Favorite holiday destination',
     'Most memorable childhood experience',
@@ -27,6 +30,9 @@ const bingoTopics = [
     'Dream vehicle',
 ]
 
+/**
+ * Initial bingo list.
+ */
 let bingoList: BingoList = [
     [
         { state: 0, number: 0 },
@@ -65,11 +71,17 @@ let bingoList: BingoList = [
     ],
 ]
 
+/**
+ * Flattened bingo list.
+ */
 let flatBingoList: BingoRow = bingoList.reduce(
     (acc, val) => acc.concat(val),
     []
 )
 
+/**
+ * Generates a seeded random number.
+ */
 function seededRandom(seed: number) {
     const a = 1664525
     const c = 1013904223
@@ -81,6 +93,9 @@ function seededRandom(seed: number) {
     }
 }
 
+/**
+ * Shuffles an array in place.
+ */
 function shuffleArray(array: string[]): string[] {
     const currentHour = new Date().getHours()
     const random = seededRandom(currentHour)
@@ -91,13 +106,25 @@ function shuffleArray(array: string[]): string[] {
     return array
 }
 
+/**
+ * Shuffled list of bingo topics.
+ */
 const shuffledListOfStrings: string[] = shuffleArray([...bingoTopics])
 
+/**
+ * Index for the shuffled list of strings.
+ */
 let shuffledIndex = 0
+/**
+ * Updates the flat bingo list with the shuffled list of strings.
+ */
 flatBingoList = flatBingoList.map((obj) =>
     !obj.unique ? { ...obj, text: shuffledListOfStrings[shuffledIndex++] } : obj
 )
 
+/**
+ * Splits the flat bingo list into a 2D array.
+ */
 bingoList = []
 while (flatBingoList.length)
     bingoList.push(flatBingoList.splice(0, 5) as BingoRow)

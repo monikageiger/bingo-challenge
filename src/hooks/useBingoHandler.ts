@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import initialBingoList from './initialList'
 import { BingoList } from '../bingo.types'
 
+/**
+ * Custom hook to handle bingo game logic.
+ */
 export function useBingoHandler(): [
     BingoList,
     (rowIndex: number, colIndex: number) => void
@@ -10,6 +13,9 @@ export function useBingoHandler(): [
     const BINGO_STATE = 2
     const [bingoList, setBingoList] = useState<BingoList>(initialBingoList)
 
+    /**
+     * Updates the state of the cells at the given indices.
+     */
     const updateState = (
         indices: [number, number][],
         state: number = BINGO_STATE
@@ -24,6 +30,9 @@ export function useBingoHandler(): [
         setBingoList(newBingoList)
     }
 
+    /**
+     * Checks the diagonals of the bingo list for a win.
+     */
     const checkDiagonals = (bingoList: BingoList) => {
         const countDiagonal: [number, number][] = []
         const countReverseDiagonal: [number, number][] = []
@@ -40,6 +49,9 @@ export function useBingoHandler(): [
             updateState(countReverseDiagonal)
     }
 
+    /**
+     * Checks the columns and rows of the bingo list for a win.
+     */
     const checkColumnsAndRows = (bingoList: BingoList) => {
         for (let i = 0; i < bingoList.length; i++) {
             const countColumn: [number, number][] = []
@@ -54,6 +66,9 @@ export function useBingoHandler(): [
         }
     }
 
+    /**
+     * Handles a click on a cell.
+     */
     function handleCellClick(rowIndex: number, colIndex: number): void {
         const newBingoList = [...bingoList]
 
@@ -64,7 +79,9 @@ export function useBingoHandler(): [
             checkColumnsAndRows(newBingoList)
         }
     }
-
+    /**
+     * Creates a heart element and adds it to the body.
+     */
     function createHeart() {
         const heart = document.createElement('div')
         heart.classList.add('heart')
@@ -81,6 +98,13 @@ export function useBingoHandler(): [
         }, 5000)
     }
 
+    /**
+     * Effect hook for creating hearts when winCondition is true.
+     *
+     * If winCondition is true, starts an interval that creates a heart every 35 milliseconds
+     * and sets winCondition to false after 3 seconds.
+     * If winCondition is false, clears the interval and stops hearts from being created.
+     */
     useEffect(() => {
         if (winCondition) {
             const interval = setInterval(createHeart, 35)
