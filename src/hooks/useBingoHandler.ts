@@ -2,10 +2,9 @@ import { useState } from 'react'
 import initialBingoList from './initialList'
 import { BingoList } from '../bingo.types'
 
-
 export function useBingoHandler(): [
     BingoList,
-    (row: number, col: number) => void
+    (rowIndex: number, colIndex: number) => void
 ] {
     const BINGO_STATE = 2
     const [bingoList, setBingoList] = useState<BingoList>(initialBingoList)
@@ -49,15 +48,15 @@ export function useBingoHandler(): [
         }
     }
 
-    function clickCell(row: number, col: number): void {
+    function handleCellClick(rowIndex: number, colIndex: number): void {
         const newBingoList = [...bingoList]
-        if (!newBingoList[row][col].state) {
-            newBingoList[row][col].state = 1
+console.log('gi')
+        if (!newBingoList[rowIndex][colIndex].state) {
+            newBingoList[rowIndex][colIndex].state = 1
             setBingoList(newBingoList)
             checkDiagonals(newBingoList)
             checkColumnsAndRows(newBingoList)
         }
-        console.log(newBingoList)
     }
-    return [bingoList ?? [], clickCell]
+    return [bingoList ?? [], handleCellClick]
 }

@@ -3,10 +3,8 @@ import './BingoTable.scss'
 import BingoCard from './BingoCard'
 import { BingoCell, BingoRow } from '../bingo.types'
 
-
 function BingoTable() {
-    const [items, updateArray] = useBingoHandler()
-    console.log('items', items)
+    const [items, handleCellClick] = useBingoHandler()
 
     return (
         <>
@@ -14,15 +12,17 @@ function BingoTable() {
                 {Array.isArray(items) &&
                     items.map((row: BingoRow, rowIndex: number) => (
                         <div key={rowIndex} className="bingoTable-row">
-                            {row.map((cell: BingoCell, cellIndex: number) => (
-                                <BingoCard
-                                    key={cellIndex}
-                                    cell={cell}
-                                    rowIndex={rowIndex}
-                                    cellIndex={cellIndex}
-                                    onClick={updateArray}
-                                />
-                            ))}
+                            {row.map(
+                                (cellData: BingoCell, colIndex: number) => (
+                                    <BingoCard
+                                        key={colIndex}
+                                        cellData={cellData}
+                                        rowIndex={rowIndex}
+                                        colIndex={colIndex}
+                                        handleCellClick={handleCellClick}
+                                    />
+                                )
+                            )}
                         </div>
                     ))}
             </div>

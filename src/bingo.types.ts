@@ -10,8 +10,8 @@ export type BingoRow = BingoCell[]
 export type BingoList = BingoRow[]
 
 export type BingoCardProps = {
-    cell: BingoCell
+    cellData: BingoCell
     rowIndex: number
-    cellIndex: number
-    onClick: (row: number, col: number) => void
+    colIndex: number
+    handleCellClick: (rowIndex: number, colIndex: number) => void
 }

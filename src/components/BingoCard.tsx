@@ -2,25 +2,32 @@ import './BingoCard.scss'
 import heart from '../assets/heart.png'
 import { BingoCardProps } from '../bingo.types'
 
-function BingoCard({ cell, rowIndex, cellIndex, onClick }: BingoCardProps) {
+function BingoCard({
+    cellData,
+    rowIndex,
+    colIndex,
+    handleCellClick,
+}: BingoCardProps) {
     return (
         <div
             className={`bingo-cell ${
-                cell.unique
+                cellData.unique
                     ? 'unique'
-                    : cell.state === 2
+                    : cellData.state === 2
                     ? 'bingo'
-                    : cell.state === 1
+                    : cellData.state === 1
                     ? 'selected'
                     : ''
             }`}
-            onClick={() => onClick(rowIndex, cellIndex)}
+            onClick={() => {
+                if (cellData.state === 0) handleCellClick(rowIndex, colIndex)
+            }}
         >
-            {cell.state === 2 && !cell.unique && (
+            {cellData.state === 2 && !cellData.unique && (
                 <img className="bingo-cell-heart" src={heart} alt="heart" />
             )}
-            <div className="bingo-cell-number"> {cell.number}</div>
-            {cell.text}
+            <div className="bingo-cell-number"> {cellData.number}</div>
+            {cellData.text}
         </div>
     )
 }

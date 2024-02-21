@@ -1,4 +1,4 @@
-import { BingoCell, BingoList, BingoRow } from '../bingo.types'
+import { BingoList, BingoRow } from '../bingo.types'
 
 const bingoTopics = [
     'Favorite holiday destination',
@@ -65,12 +65,10 @@ let bingoList: BingoList = [
     ],
 ]
 
-// Flatten the bingoList array
-let flatBingoList: BingoCell[] = bingoList.reduce(
+let flatBingoList: BingoRow = bingoList.reduce(
     (acc, val) => acc.concat(val),
     []
 )
-
 
 function seededRandom(seed: number) {
     const a = 1664525
@@ -82,7 +80,7 @@ function seededRandom(seed: number) {
         return x / m
     }
 }
-// Function to shuffle an array
+
 function shuffleArray(array: string[]): string[] {
     const currentHour = new Date().getHours()
     const random = seededRandom(currentHour)
@@ -93,18 +91,13 @@ function shuffleArray(array: string[]): string[] {
     return array
 }
 
-// Shuffle the listOfStrings array
 const shuffledListOfStrings: string[] = shuffleArray([...bingoTopics])
 
-// Map over the flatBingoList array to add a text property from the shuffledListOfStrings array to each object
 let shuffledIndex = 0
 flatBingoList = flatBingoList.map((obj) =>
-    obj.state !== 2
-        ? { ...obj, text: shuffledListOfStrings[shuffledIndex++] }
-        : obj
+    !obj.unique ? { ...obj, text: shuffledListOfStrings[shuffledIndex++] } : obj
 )
 
-// Convert the flatBingoList array back to a 2D array
 bingoList = []
 while (flatBingoList.length)
     bingoList.push(flatBingoList.splice(0, 5) as BingoRow)
