@@ -70,7 +70,7 @@ export function useBingoHandler(): [
         heart.classList.add('heart')
 
         heart.style.left = Math.random() * 100 + 'vw'
-        heart.style.animationDuration = Math.random() * 1 + 2 + 's'
+        heart.style.animationDuration = Math.random() * 2 + 3 + 's'
         heart.style.fontSize = Math.random() * 2 + 1 + 'rem'
         heart.innerText = '❤️'
 
@@ -80,7 +80,7 @@ export function useBingoHandler(): [
             heart.remove()
         }, 5000)
     }
-    
+
     useEffect(() => {
         if (winCondition) {
             const interval = setInterval(createHeart, 35)
