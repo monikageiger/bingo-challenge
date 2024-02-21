@@ -4,8 +4,7 @@ import { BingoList } from '../bingo.types'
 
 export function useBingoHandler(): [
     BingoList,
-    (rowIndex: number, colIndex: number) => void,
-    boolean
+    (rowIndex: number, colIndex: number) => void
 ] {
     const [winCondition, setWindCondition] = useState(false)
     const BINGO_STATE = 2
@@ -24,13 +23,6 @@ export function useBingoHandler(): [
         })
         setBingoList(newBingoList)
     }
-
-    useEffect(() => {
-        if (winCondition) {
-            const timer = setTimeout(() => setWindCondition(false), 3000)
-            return () => clearTimeout(timer)
-        }
-    }, [winCondition])
 
     const checkDiagonals = (bingoList: BingoList) => {
         const countDiagonal: [number, number][] = []
@@ -72,5 +64,33 @@ export function useBingoHandler(): [
             checkColumnsAndRows(newBingoList)
         }
     }
-    return [bingoList ?? [], handleCellClick, winCondition]
+
+    function createHeart() {
+        const heart = document.createElement('div')
+        heart.classList.add('heart')
+
+        heart.style.left = Math.random() * 100 + 'vw'
+        heart.style.animationDuration = Math.random() * 1 + 2 + 's'
+        heart.style.fontSize = Math.random() * 2 + 1 + 'rem'
+        heart.innerText = '❤️'
+
+        document.body.appendChild(heart)
+
+        setTimeout(() => {
+            heart.remove()
+        }, 5000)
+    }
+    
+    useEffect(() => {
+        if (winCondition) {
+            const interval = setInterval(createHeart, 35)
+            const timer = setTimeout(() => setWindCondition(false), 3000)
+            return () => {
+                clearTimeout(timer)
+                clearInterval(interval)
+            }
+        }
+    }, [winCondition])
+
+    return [bingoList ?? [], handleCellClick]
 }

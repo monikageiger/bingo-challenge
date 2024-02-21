@@ -1,17 +1,13 @@
 import { useBingoHandler } from '../hooks/useBingoHandler'
 import './BingoTable.scss'
 import BingoCard from './BingoCard'
-import winner from '../assets/winner.gif'
 import { BingoCell, BingoRow } from '../bingo.types'
 
 function BingoTable() {
-    const [items, handleCellClick, winCondition] = useBingoHandler()
+    const [items, handleCellClick] = useBingoHandler()
     return (
         <>
             <div className="bingoTable">
-                {winCondition && (
-                    <img src={winner} alt="" className="bingoTable-win" />
-                )}
                 {Array.isArray(items) &&
                     items.map((row: BingoRow, rowIndex: number) => (
                         <div key={rowIndex} className="bingoTable-row">

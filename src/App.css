@@ -6,9 +6,27 @@
     margin: auto;
     width: 70%;
     height: 100vh;
-    /* transform: scale(0.7); */
 }
 
 body {
     background-color: #ede0d4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    .heart {
+        position: fixed;
+        font-size: 1.5rem;
+        top: -1vh;
+  
+        animation: fall 3s linear forwards;
+    }
+}
+@keyframes fall {
+    from {
+        transform: translateY(0vh) translateX(0vw);
+    }
+    to {
+        transform: translateY(105vh) translateX(0vw);
+    }
 }
