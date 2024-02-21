@@ -1,6 +1,6 @@
 import './BingoCard.scss'
-import heart from '../assets/heart.png'
-import { BingoCardProps } from '../bingo.types'
+// import heart from '../assets/heart.png'
+import { BingoCardProps, BingoCell } from '../bingo.types'
 
 function BingoCard({
     cellData,
@@ -8,24 +8,19 @@ function BingoCard({
     colIndex,
     handleCellClick,
 }: BingoCardProps) {
+    function getCellClass(cellData: BingoCell): string {
+        if (cellData.unique) return 'unique'
+        if (cellData.state === 2) return 'bingo'
+        if (cellData.state === 1) return 'selected'
+        return ''
+    }
     return (
         <div
-            className={`bingo-cell ${
-                cellData.unique
-                    ? 'unique'
-                    : cellData.state === 2
-                    ? 'bingo'
-                    : cellData.state === 1
-                    ? 'selected'
-                    : ''
-            }`}
+            className={`bingo-cell ${getCellClass(cellData)}`}
             onClick={() => {
                 if (cellData.state === 0) handleCellClick(rowIndex, colIndex)
             }}
         >
-            {cellData.state === 2 && !cellData.unique && (
-                <img className="bingo-cell-heart" src={heart} alt="heart" />
-            )}
             <div className="bingo-cell-number"> {cellData.number}</div>
             {cellData.text}
         </div>

@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import initialBingoList from './initialList'
 import { BingoList } from '../bingo.types'
 
 export function useBingoHandler(): [
     BingoList,
-    (rowIndex: number, colIndex: number) => void
+    (rowIndex: number, colIndex: number) => void,
+    boolean
 ] {
+    const [winCondition, setWindCondition] = useState(false)
     const BINGO_STATE = 2
     const [bingoList, setBingoList] = useState<BingoList>(initialBingoList)
 
@@ -14,9 +16,21 @@ export function useBingoHandler(): [
         state: number = BINGO_STATE
     ) => {
         const newBingoList = [...bingoList]
-        indices.forEach(([row, col]) => (newBingoList[row][col].state = state))
+        indices.forEach(([row, col]) => {
+            if (newBingoList[row][col].state === 1) {
+                newBingoList[row][col].state = state
+                setWindCondition(true)
+            }
+        })
         setBingoList(newBingoList)
     }
+
+    useEffect(() => {
+        if (winCondition) {
+            const timer = setTimeout(() => setWindCondition(false), 3000)
+            return () => clearTimeout(timer)
+        }
+    }, [winCondition])
 
     const checkDiagonals = (bingoList: BingoList) => {
         const countDiagonal: [number, number][] = []
@@ -50,7 +64,7 @@ export function useBingoHandler(): [
 
     function handleCellClick(rowIndex: number, colIndex: number): void {
         const newBingoList = [...bingoList]
-console.log('gi')
+
         if (!newBingoList[rowIndex][colIndex].state) {
             newBingoList[rowIndex][colIndex].state = 1
             setBingoList(newBingoList)
@@ -58,5 +72,5 @@ console.log('gi')
             checkColumnsAndRows(newBingoList)
         }
     }
-    return [bingoList ?? [], handleCellClick]
+    return [bingoList ?? [], handleCellClick, winCondition]
 }

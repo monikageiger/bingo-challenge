@@ -12,7 +12,7 @@
     overflow: hidden;
     background-color: #f26a8d;
     position: relative;
-    z-index: 10;
+    z-index: 1;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 14px;
     padding: 5px;
@@ -29,24 +29,23 @@
         }
     }
     &.selected {
-        background-color: #f49cbb;
-        // color: #495057;
-        opacity: 0.7;
+        background-color: #dc708b;
+        opacity: 0.5;
+        color: white;
         transform: scale(0.95);
         border: 1px solid #fb6f92;
         cursor: unset;
     }
     &.bingo {
-        background-color: #f49cbb;
+        background-color: #f69aba;
         transform: scale(0.95);
         cursor: unset;
-    }
-    &-heart {
-        width: 90px;
-        animation: shaking 2s;
-        position: absolute;
-        z-index: 9;
-        opacity: 1;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-image: url('../assets/heart.png');
+        opacity: 0.5;
+        background-blend-mode: multiply;
     }
     &-number {
         position: absolute;

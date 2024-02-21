@@ -4,9 +4,17 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    position: relative;
     &-row {
         display: flex;
         gap: 10px;
+    }
+    &-win {
+        height: 60%;
+        width: 80%;
+        position: absolute;
+        top: 20%;
+        z-index: 2;
     }
     @media screen and (min-width: 600px) {
         transform: scale(1.3);
