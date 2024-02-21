@@ -1,4 +1,4 @@
-import { BingoBoard, BingoRow } from '../bingo.types'
+import { BingoBoard, BingoRow } from '../types/bingo.types'
 
 /**
  * List of bingo topics.
@@ -51,7 +51,7 @@ let bingoBoard: BingoBoard = [
     [
         { state: 0, number: 10 },
         { state: 0, number: 11 },
-        { state: 2, text: 'FIRST DATE BINGO TOPICS', unique: true },
+        { state: 2, text: 'FIRST DATE BINGO TOPICS', default: true },
         { state: 0, number: 13 },
         { state: 0, number: 14 },
     ],
@@ -72,7 +72,7 @@ let bingoBoard: BingoBoard = [
 ]
 
 /**
- * Flattened bingo board.
+ * Flattened bingo board for easier manipulation
  */
 let flatBingoBoard: BingoRow = bingoBoard.reduce(
     (acc, val) => acc.concat(val),
@@ -94,7 +94,7 @@ function seededRandom(seed: number) {
 }
 
 /**
- * Shuffles an array in place.
+ * Shuffles an array in place based on the current hour as seed. This means that the shuffle will be the same for the same hour.
  */
 function shuffleArray(array: string[]): string[] {
     const currentHour = new Date().getHours()
@@ -106,25 +106,13 @@ function shuffleArray(array: string[]): string[] {
     return array
 }
 
-/**
- * Shuffled list of bingo topics.
- */
 const shuffledListOfStrings: string[] = shuffleArray([...bingoTopics])
-
-/**
- * Index for the shuffled list of strings.
- */
 let shuffledIndex = 0
-/**
- * Updates the flat bingo board with the shuffled list of strings.
- */
+
 flatBingoBoard = flatBingoBoard.map((obj) =>
-    !obj.unique ? { ...obj, text: shuffledListOfStrings[shuffledIndex++] } : obj
+    !obj.default ? { ...obj, text: shuffledListOfStrings[shuffledIndex++] } : obj
 )
 
-/**
- * Splits the flat bingo board into a 2D array.
- */
 bingoBoard = []
 while (flatBingoBoard.length)
     bingoBoard.push(flatBingoBoard.splice(0, 5) as BingoRow)

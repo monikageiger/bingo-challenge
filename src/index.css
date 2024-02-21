@@ -1,3 +1,13 @@
 body {
     margin: none;
 }
+
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ede0d4;
+    height: 100vh;
+    width: 100vw;
+    margin: 0px;
+}

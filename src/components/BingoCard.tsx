@@ -1,37 +1,36 @@
 import './BingoCard.scss'
-import { BingoCardProps, BingoCell } from '../bingo.types'
+import { BingoCardProps, BingoCardType } from '../types/bingo.types'
 
 /**
  * BingoCard component.
  *
- * This component displays a bingo card cell with a number and text.
- * The cell has a class determined by its state and can be clicked to change its state.
+ * Displays a bingo card with a number and text.
  */
 function BingoCard({
-    cellData,
+    cardData,
     rowIndex,
     colIndex,
-    handleCellClick,
+    handleCardClick,
 }: BingoCardProps) {
     /**
-     * Returns a CSS class for the cell based on its state.
+     * Default class is used for the middle card, bingo is when the card is in a winning condition, and selected is when the card is clicked.
      */
-    function getCellClass(cellData: BingoCell): string {
-        if (cellData.unique) return 'unique'
-        if (cellData.state === 2) return 'bingo'
-        if (cellData.state === 1) return 'selected'
+    function getCardClass(cardData: BingoCardType): string {
+        if (cardData.default) return 'default'
+        if (cardData.state === 2) return 'bingo'
+        if (cardData.state === 1) return 'selected'
         return ''
     }
 
     return (
         <div
-            className={`bingo-cell ${getCellClass(cellData)}`}
+            className={`bingo-card ${getCardClass(cardData)}`}
             onClick={() => {
-                if (cellData.state === 0) handleCellClick(rowIndex, colIndex)
+                if (cardData.state === 0) handleCardClick(rowIndex, colIndex)
             }}
         >
-            <div className="bingo-cell-number"> {cellData.number}</div>
-            {cellData.text}
+            <div className="bingo-card-number"> {cardData.number}</div>
+            {cardData.text}
         </div>
     )
 }

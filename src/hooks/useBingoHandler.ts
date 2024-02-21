@@ -1,32 +1,32 @@
 import { useState, useEffect, useRef } from 'react'
-import initialBingoBoard from './initialList'
-import { BingoBoard } from '../bingo.types'
+import initialBingoBoard from '../utils/initialBoard'
+import { BingoBoard } from '../types/bingo.types'
 
+const BINGO_WIN_STATE = 2
 
 /**
- * Custom hook to handle bingo game logic.
+ * Custom hook to handle board changes depending on card clicks.
  */
 export function useBingoHandler(): [
     BingoBoard,
     (rowIndex: number, colIndex: number) => void
 ] {
-    const [winCondition, setWindCondition] = useState(false)
-    const BINGO_STATE = 2
+    const [winCondition, setWinCondition] = useState(false)
     const [bingoBoard, setBingoBoard] = useState<BingoBoard>(initialBingoBoard)
     const heartCount = useRef(0)
 
     /**
-     * Updates the state of the cells at the given indices.
+     * Updates the state of the cards at the given indices.
      */
     const updateState = (
         indices: [number, number][],
-        state: number = BINGO_STATE
+        state: number = BINGO_WIN_STATE
     ) => {
         const newBingoBoard = [...bingoBoard]
         indices.forEach(([row, col]) => {
             if (newBingoBoard[row][col].state === 1) {
                 newBingoBoard[row][col].state = state
-                setWindCondition(true)
+                setWinCondition(true)
             }
         })
         setBingoBoard(newBingoBoard)
@@ -69,9 +69,9 @@ export function useBingoHandler(): [
     }
 
     /**
-     * Handles a click on a cell.
+     * If the card is not selected, updates the state of the card and checks for a win.
      */
-    function handleCellClick(rowIndex: number, colIndex: number): void {
+    function handleCardClick(rowIndex: number, colIndex: number): void {
         const newBingoBoard = [...bingoBoard]
 
         if (!newBingoBoard[rowIndex][colIndex].state) {
@@ -106,16 +106,13 @@ export function useBingoHandler(): [
 
     /**
      * Effect hook for creating hearts when winCondition is true.
-     *
-     * If winCondition is true, starts an interval that creates a heart every 35 milliseconds
-     * and sets winCondition to false after 3 seconds.
-     * If winCondition is false, clears the interval and stops hearts from being created.
+     * Hearts are created every 35ms for 3 seconds.
      */
 
     useEffect(() => {
         if (winCondition) {
             const interval = setInterval(createHeart, 35)
-            const timer = setTimeout(() => setWindCondition(false), 3000)
+            const timer = setTimeout(() => setWinCondition(false), 3000)
             return () => {
                 clearTimeout(timer)
                 clearInterval(interval)
@@ -123,5 +120,5 @@ export function useBingoHandler(): [
         }
     }, [winCondition])
 
-    return [bingoBoard ?? [], handleCellClick]
+    return [bingoBoard ?? [], handleCardClick]
 }

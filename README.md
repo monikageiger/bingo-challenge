@@ -1,30 +1,30 @@
-# React + TypeScript + Vite
+# Bingo Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+It is just past Valentine's Day, so I was thinking that a good use case for Bingo could be in a first date setting. At these dates, usually the same questions come up anyway, so it can be fun to see who wins.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Generates a random Bingo board for each game, but subsequent generations will be the same in the current hour.
+- Allows the user to select cards on the Bingo board.
+- At each click, checks for a win condition (when a full row, column, or diagonal is selected).
+- Displays a fun animation when the user wins.
+- Multiple wins are possible.
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clone the repository: `git clone https://github.com/monikageiger/bingo-challenge.git`
+2. Navigate to the project directory: `cd bingo-challenge`
+3. Install the dependencies: `npm install`
 
-- Configure the top-level `parserOptions` property like this:
+## Usage
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+To start the game, run `npm run dev` in the project directory. This will start the development server, and you can access the game at `http://localhost:5173/bingo-challenge/`.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+## Backlog
+
+Because of the time limit, there are multiple things I couldn't implement, for example:
+
+- **DOM Manipulation in React**: Replace direct DOM manipulation (for heart creation at win) with React state to handle changes in the UI.
+- **Board initialization**: Refactor how board gets initialized to a hook or reusable function
+- **Tests**: Create unit tests
