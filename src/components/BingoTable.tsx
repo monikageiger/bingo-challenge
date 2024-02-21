@@ -2,7 +2,6 @@ import { useBingoHandler } from '../hooks/useBingoHandler'
 import './BingoTable.scss'
 import BingoCard from './BingoCard'
 import winner from '../assets/winner.gif'
-import heart from '../assets/heart.png'
 import { BingoCell, BingoRow } from '../bingo.types'
 
 function BingoTable() {

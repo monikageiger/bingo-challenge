@@ -1,5 +1,4 @@
 import './BingoCard.scss'
-// import heart from '../assets/heart.png'
 import { BingoCardProps, BingoCell } from '../bingo.types'
 
 function BingoCard({
