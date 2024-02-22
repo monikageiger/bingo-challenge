@@ -80,27 +80,12 @@ let flatBingoBoard: BingoRow = bingoBoard.reduce(
 )
 
 /**
- * Generates a seeded random number.
- */
-function seededRandom(seed: number) {
-    const a = 1664525
-    const c = 1013904223
-    const m = Math.pow(2, 32)
-    let x = seed
-    return function () {
-        x = (a * x + c) % m
-        return x / m
-    }
-}
-
-/**
- * Shuffles an array in place based on the current hour as seed. This means that the shuffle will be the same for the same hour.
+ * Shuffles an array in place randomly.
  */
 function shuffleArray(array: string[]): string[] {
-    const currentHour = new Date().getHours()
-    const random = seededRandom(currentHour)
+
     for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(random() * (i + 1))
+        const j = Math.floor(Math.random() * (i + 1))
         ;[array[i], array[j]] = [array[j], array[i]]
     }
     return array

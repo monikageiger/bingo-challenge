@@ -4,7 +4,7 @@ It is just past Valentine's Day, so I was thinking that a good use case for Bing
 
 ## Features
 
-- Generates a random Bingo board for each game, but subsequent generations will be the same in the current hour.
+- Generates a random Bingo board for each game, and at each refresh the order will be changed again.
 - Allows the user to select cards on the Bingo board.
 - At each click, checks for a win condition (when a full row, column, or diagonal is selected).
 - Displays a fun animation when the user wins.
